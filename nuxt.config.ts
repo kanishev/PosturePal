@@ -20,4 +20,7 @@ export default defineNuxtConfig({
      */
     componentDir: "@/components/ui",
   },
+  imports: {
+    autoImport: false,
+  },
 });

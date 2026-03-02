@@ -1,12 +1,26 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
   css: ["~/assets/css/tailwind.css"],
+  typescript: {
+    typeCheck: true,
+    tsConfig: {
+      compilerOptions: {
+        noUncheckedIndexedAccess: true,
+        noUnusedLocals: true,
+        noUnusedParameters: true,
+        noImplicitReturns: true,
+        noFallthroughCasesInSwitch: true,
+      },
+    },
+  },
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [
+      // @ts-ignore — type conflict between rollup versions, works at runtime
+      tailwindcss(),
+    ],
   },
   modules: ["shadcn-nuxt", "@pinia/nuxt", "@nuxt/test-utils/module"],
   shadcn: {

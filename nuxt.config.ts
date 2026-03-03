@@ -22,7 +22,15 @@ export default defineNuxtConfig({
       tailwindcss(),
     ],
   },
-  modules: ["shadcn-nuxt", "@pinia/nuxt", "@nuxt/test-utils/module"],
+  modules: [
+    "shadcn-nuxt",
+    "@pinia/nuxt",
+    "@nuxt/test-utils/module",
+    "@nuxt/eslint",
+  ],
+  eslint: {
+    checker: true,
+  },
   shadcn: {
     /**
      * Prefix for all the imported component

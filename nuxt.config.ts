@@ -1,9 +1,24 @@
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineNuxtConfig({
-  compatibilityDate: "2025-07-15",
+  modules: [
+    "shadcn-nuxt",
+    "@pinia/nuxt",
+    "@nuxt/test-utils/module",
+    "@nuxt/eslint",
+  ],
+  imports: {
+    autoImport: false,
+  },
   devtools: { enabled: true },
   css: ["~/assets/css/tailwind.css"],
+  compatibilityDate: "2025-07-15",
+  vite: {
+    plugins: [
+      // @ts-ignore — type conflict between rollup versions, works at runtime
+      tailwindcss(),
+    ],
+  },
   typescript: {
     typeCheck: true,
     tsConfig: {
@@ -16,20 +31,11 @@ export default defineNuxtConfig({
       },
     },
   },
-  vite: {
-    plugins: [
-      // @ts-ignore — type conflict between rollup versions, works at runtime
-      tailwindcss(),
-    ],
-  },
-  modules: [
-    "shadcn-nuxt",
-    "@pinia/nuxt",
-    "@nuxt/test-utils/module",
-    "@nuxt/eslint",
-  ],
   eslint: {
     checker: true,
+    config: {
+      stylistic: true,
+    },
   },
   shadcn: {
     /**
@@ -41,8 +47,5 @@ export default defineNuxtConfig({
      * @default "./components/ui"
      */
     componentDir: "@/components/ui",
-  },
-  imports: {
-    autoImport: false,
   },
 });

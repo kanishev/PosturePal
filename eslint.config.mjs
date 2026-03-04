@@ -1,12 +1,37 @@
-// @ts-check
-import withNuxt from "./.nuxt/eslint.config.mjs";
+import stylistic from "@stylistic/eslint-plugin"
+import withNuxt from "./.nuxt/eslint.config.mjs"
 
 export default withNuxt([
   {
+    plugins: {
+      "@stylistic": stylistic
+    },
     rules: {
+      // base
       "no-unused-vars": "warn",
       "no-console": process.env.NODE_ENV === "production" ? "error" : "warn",
       "no-debugger": process.env.NODE_ENV === "production" ? "error" : "warn",
+
+      // stylistic
+      "@stylistic/indent": ["error", 2],
+      "@stylistic/quotes": ["error", "double", { avoidEscape: true }],
+      "@stylistic/max-len": [
+        "error",
+        {
+          code: 120,
+          tabWidth: 2,
+          ignoreUrls: true,
+          ignoreStrings: true,
+        },
+      ],
+      "@stylistic/no-mixed-spaces-and-tabs": ["error", "smart-tabs"],
+      "@stylistic/object-curly-spacing": [
+        "error",
+        "always",
+        {
+          emptyObjects: "never",
+        },
+      ],
 
       // vue
       "vue/no-unused-components": "warn",
@@ -42,4 +67,4 @@ export default withNuxt([
   {
     ignores: ["app/shared/components/ui/**/*.vue"],
   },
-]);
+])

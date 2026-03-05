@@ -1,10 +1,10 @@
-import stylistic from "@stylistic/eslint-plugin"
-import withNuxt from "./.nuxt/eslint.config.mjs"
+import stylistic from "@stylistic/eslint-plugin";
+import withNuxt from "./.nuxt/eslint.config.mjs";
 
 export default withNuxt([
   {
     plugins: {
-      "@stylistic": stylistic
+      "@stylistic": stylistic,
     },
     rules: {
       // base
@@ -15,6 +15,8 @@ export default withNuxt([
       // stylistic
       "@stylistic/indent": ["error", 2],
       "@stylistic/quotes": ["error", "double", { avoidEscape: true }],
+      "@stylistic/semi": ["warn", "always"],
+      "@stylistic/no-extra-semi": "off",
       "@stylistic/max-len": [
         "error",
         {
@@ -37,7 +39,14 @@ export default withNuxt([
       "vue/no-unused-components": "warn",
       "vue/no-unused-vars": "warn",
       "vue/multi-word-component-names": "warn",
-      "vue/component-name-in-template-casing": ["warn", "kebab-case"],
+      "vue/component-name-in-template-casing": [
+        "warn",
+        "kebab-case",
+        // Exclude Shadcn components
+        {
+          ignores: ["Button", "Input"],
+        },
+      ],
       "vue/component-definition-name-casing": "off",
       "vue/max-attributes-per-line": [
         "error",
@@ -62,9 +71,10 @@ export default withNuxt([
           order: ["defineEmits", "defineSlots", "defineProps", "defineModel"],
         },
       ],
+      "vue/html-self-closing": "off",
     },
   },
   {
     ignores: ["app/shared/components/ui/**/*.vue"],
   },
-])
+]);

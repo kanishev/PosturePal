@@ -17,6 +17,7 @@
   "dependencies": {
     "@nuxt/eslint": "^1.15.2",
     "@pinia/nuxt": "^0.11.3",
+    "@supabase/supabase-js": "^2.98.0",
     "@vite-pwa/nuxt": "^1.1.1",
     "@vueuse/core": "^14.2.1",
     "class-variance-authority": "^0.7.1",

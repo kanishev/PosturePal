@@ -75,6 +75,6 @@ export default withNuxt([
     },
   },
   {
-    ignores: ["app/shared/components/ui/**/*.vue"],
+    ignores: ["app/shared/components/ui/**/*.vue", "app/shared/types/supabase/*.ts"],
   },
 ]);

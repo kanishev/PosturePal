@@ -1,16 +1,22 @@
 import type { RouterConfig } from "@nuxt/schema";
 
 export default {
-  routes: (_routes) => [
+  routes: _routes => [
     {
       name: "home",
       path: "/",
       component: () => import("~/pages/home.vue"),
+      meta: { middleware: ["auth"] },
     },
     {
-      name: "about",
-      path: "/about",
-      component: () => import("~/pages/about.vue"),
+      name: "login",
+      path: "/login",
+      component: () => import("~/pages/login.vue"),
+    },
+    {
+      name: "register",
+      path: "/register",
+      component: () => import("~/pages/register.vue"),
     },
   ],
 } satisfies RouterConfig;

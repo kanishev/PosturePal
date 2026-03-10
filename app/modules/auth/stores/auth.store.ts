@@ -1,10 +1,11 @@
 import type { User } from "@supabase/supabase-js";
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
-import { supabase } from "~/shared/api/supabase";
+import { useSupabase } from "~/shared/api/supabase";
 
 export const useAuthStore = defineStore("auth", () => {
   const user = ref<User | null>(null);
+  const supabase = useSupabase();
   const isAuthenticated = computed(() => !!user.value);
 
   async function init() {

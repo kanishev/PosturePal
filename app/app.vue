@@ -1,7 +1,10 @@
 <template>
-    <NuxtPage></NuxtPage>
-    <p class="red"></p>
-    <p></p>
+  <NuxtPage></NuxtPage>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useAuthStore } from "./modules/auth/stores/auth.store";
+
+const authStore = useAuthStore();
+await authStore.init();
+</script>

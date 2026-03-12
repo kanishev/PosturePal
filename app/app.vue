@@ -1,10 +1,9 @@
 <template>
-  <NuxtPage></NuxtPage>
+  <NuxtPage v-if="authStore.isInitialized" />
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from "./modules/auth/stores/auth.store";
+import { useAuthStore } from "./modules/auth";
 
 const authStore = useAuthStore();
-await authStore.init();
 </script>

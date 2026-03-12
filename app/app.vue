@@ -1,7 +1,9 @@
 <template>
-    <NuxtPage></NuxtPage>
-    <p class="red"></p>
-    <p></p>
+  <NuxtPage v-if="authStore.isInitialized" />
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useAuthStore } from "./modules/auth";
+
+const authStore = useAuthStore();
+</script>

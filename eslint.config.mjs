@@ -44,7 +44,7 @@ export default withNuxt([
         "kebab-case",
         // Exclude Shadcn components
         {
-          ignores: ["Button", "Input"],
+          ignores: ["Button", "Input", "Label", "Card"],
         },
       ],
       "vue/component-definition-name-casing": "off",

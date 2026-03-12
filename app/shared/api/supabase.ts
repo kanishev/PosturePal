@@ -1,10 +1,18 @@
 import { useRuntimeConfig } from "#app";
-import { createClient } from "@supabase/supabase-js";
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "../types/supabase/database.types";
 
-const config = useRuntimeConfig();
+let client: SupabaseClient<Database> | null = null;
 
-export const supabase = createClient<Database>(
-  config.public.supabaseUrl,
-  config.public.supabasePublishableKey,
-);
+export const useSupabase = () => {
+  if (!client) {
+    const config = useRuntimeConfig();
+
+    client = createClient<Database>(
+      config.public.supabaseUrl,
+      config.public.supabasePublishableKey,
+    );
+  }
+
+  return client;
+};

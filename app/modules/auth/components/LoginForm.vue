@@ -65,7 +65,6 @@
 </template>
 
 <script setup lang="ts">
-import { navigateTo } from "#app";
 import { toTypedSchema } from "@vee-validate/zod";
 import { useForm } from "vee-validate";
 import { ref } from "vue";

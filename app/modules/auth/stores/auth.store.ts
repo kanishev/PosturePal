@@ -1,8 +1,3 @@
-import { navigateTo } from "#app";
-import { useSupabaseClient, useSupabaseUser } from "#imports";
-import { defineStore } from "pinia";
-import { computed } from "vue";
-
 export const useAuthStore = defineStore("auth", () => {
   const supabase = useSupabaseClient();
   const user = useSupabaseUser();

@@ -8,15 +8,12 @@ export default defineNuxtConfig({
     "@nuxt/test-utils/module",
     "@nuxt/eslint",
   ],
-  imports: {
-    autoImport: false,
-  },
   devtools: { enabled: true },
   css: ["~/assets/css/tailwind.css"],
   compatibilityDate: "2025-07-15",
   vite: {
     plugins: [
-      // @ts-ignore — type conflict between rollup versions, works at runtime
+      // @ts-expect-error — type conflict between rollup versions, works at runtime
       tailwindcss(),
     ],
   },
@@ -44,6 +41,6 @@ export default defineNuxtConfig({
   supabase: {
     url: process.env.SUPABASE_URL,
     key: process.env.SUPABASE_PUBLISHABLE_KEY,
-    types: "~/shared/types/supabase/database.types.ts",
+    types: "@/shared/types/supabase/database.types.ts",
   },
 });

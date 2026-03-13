@@ -15,7 +15,7 @@
     "test:e2e": "vitest --project e2e",
     "prepare": "husky",
     "typecheck": "nuxt typecheck",
-    "gen:types": "npx supabase gen types typescript --project-id $SUPABASE_PROJECT_ID > app/shared/types/subadatabase.types.ts",
+    "gen:types": "npx supabase gen types typescript --project-id $SUPABASE_PROJECT_ID > app/shared/types/supabace/database.types.ts",
     "gen:types:local": "npx supabase gen types typescript --local > types/database.types.ts"
   },
   "dependencies": {

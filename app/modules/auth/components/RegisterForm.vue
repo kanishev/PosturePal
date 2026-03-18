@@ -1,69 +1,67 @@
 <template>
-  <div class="flex min-h-screen items-center justify-center">
-    <Card class="w-full max-w-sm">
-      <card-header>
-        <card-title>Create an account</card-title>
-        <card-description>
-          Enter your email below to create your account
-        </card-description>
-        <card-action>
-          <Button variant="link" @click="navigateTo('/login')">
-            Sign In
-          </Button>
-        </card-action>
-      </card-header>
-      <card-content>
-        <form @submit.prevent="onSubmit">
-          <div class="grid w-full items-center gap-4">
-            <div class="flex flex-col space-y-1.5">
-              <Label for="email">Email</Label>
-              <Input
-                id="email"
-                v-model="email"
-                v-bind="emailAttrs"
-                type="email"
-                placeholder="m@example.com"
-              />
-              <span v-if="errors.email" class="text-sm text-red-500">{{ errors.email }}</span>
-            </div>
-            <div class="flex flex-col space-y-1.5">
-              <Label for="password">Password</Label>
-              <Input
-                id="password"
-                v-model="password"
-                v-bind="passwordAttrs"
-                type="password"
-              />
-              <span v-if="errors.password" class="text-sm text-red-500">{{ errors.password }}</span>
-            </div>
-            <div class="flex flex-col space-y-1.5">
-              <Label for="confirmPassword">Confirm Password</Label>
-              <Input
-                id="confirmPassword"
-                v-model="confirmPassword"
-                v-bind="confirmPasswordAttrs"
-                type="password"
-              />
-              <span v-if="errors.confirmPassword" class="text-sm text-red-500">{{ errors.confirmPassword }}</span>
-            </div>
-            <span v-if="error" class="text-sm text-red-500">{{ error }}</span>
+  <Card class="w-full max-w-sm">
+    <card-header>
+      <card-title>Create an account</card-title>
+      <card-description>
+        Enter your email below to create your account
+      </card-description>
+      <card-action>
+        <Button variant="link" @click="navigateTo('/login')">
+          Sign In
+        </Button>
+      </card-action>
+    </card-header>
+    <card-content>
+      <form @submit.prevent="onSubmit">
+        <div class="grid w-full items-center gap-4">
+          <div class="flex flex-col space-y-1.5">
+            <Label for="email">Email</Label>
+            <Input
+              id="email"
+              v-model="email"
+              v-bind="emailAttrs"
+              type="email"
+              placeholder="m@example.com"
+            />
+            <span v-if="errors.email" class="text-sm text-red-500">{{ errors.email }}</span>
           </div>
-        </form>
-      </card-content>
-      <card-footer class="flex flex-col gap-2">
-        <Button
-          class="w-full"
-          :disabled="isLoading"
-          @click="onSubmit"
-        >
-          {{ isLoading ? "Loading..." : "Sign Up" }}
-        </Button>
-        <Button variant="outline" class="w-full">
-          Sign Up with Google
-        </Button>
-      </card-footer>
-    </Card>
-  </div>
+          <div class="flex flex-col space-y-1.5">
+            <Label for="password">Password</Label>
+            <Input
+              id="password"
+              v-model="password"
+              v-bind="passwordAttrs"
+              type="password"
+            />
+            <span v-if="errors.password" class="text-sm text-red-500">{{ errors.password }}</span>
+          </div>
+          <div class="flex flex-col space-y-1.5">
+            <Label for="confirmPassword">Confirm Password</Label>
+            <Input
+              id="confirmPassword"
+              v-model="confirmPassword"
+              v-bind="confirmPasswordAttrs"
+              type="password"
+            />
+            <span v-if="errors.confirmPassword" class="text-sm text-red-500">{{ errors.confirmPassword }}</span>
+          </div>
+          <span v-if="error" class="text-sm text-red-500">{{ error }}</span>
+        </div>
+      </form>
+    </card-content>
+    <card-footer class="flex flex-col gap-2">
+      <Button
+        class="w-full"
+        :disabled="isLoading"
+        @click="onSubmit"
+      >
+        {{ isLoading ? "Loading..." : "Sign Up" }}
+      </Button>
+      <Button variant="outline" class="w-full">
+        Sign Up with Google
+      </Button>
+    </card-footer>
+  </Card>
 </template>
 
 <script setup lang="ts">

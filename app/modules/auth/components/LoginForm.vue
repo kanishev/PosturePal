@@ -1,67 +1,65 @@
 <template>
-  <div class="flex min-h-screen items-center justify-center">
-    <card class="w-full max-w-sm">
-      <card-header>
-        <card-title>Login to your account</card-title>
-        <card-description>
-          Enter your email below to login to your account
-        </card-description>
-        <card-action>
-          <Button variant="link" @click="navigateTo('/register')">
-            Sign Up
-          </Button>
-        </card-action>
-      </card-header>
-      <card-content>
-        <form @submit.prevent="onSubmit">
-          <div class="grid w-full items-center gap-4">
-            <div class="flex flex-col space-y-1.5">
-              <Label for="email">Email</Label>
-              <Input
-                v-bind="emailAttrs"
-                id="email"
-                v-model="email"
-                type="email"
-                placeholder="m@example.com"
-              />
-              <span v-if="errors.email">{{ errors.email }}</span>
-            </div>
-            <div class="flex flex-col space-y-1.5">
-              <div class="flex items-center">
-                <Label for="password">Password</Label>
-                <a
-                  href="#"
-                  class="ml-auto inline-block text-sm underline"
-                >
-                  Forgot your password?
-                </a>
-              </div>
-              <Input
-                v-bind="passwordAttrs"
-                id="password"
-                v-model="password"
-                type="password"
-              />
-              <span v-if="errors.password">{{ errors.password }}</span>
-            </div>
-            <span v-if="error">{{ error }}</span>
+  <card class="w-full max-w-sm">
+    <card-header>
+      <card-title>Login to your account</card-title>
+      <card-description>
+        Enter your email below to login to your account
+      </card-description>
+      <card-action>
+        <Button variant="link" @click="navigateTo('/register')">
+          Sign Up
+        </Button>
+      </card-action>
+    </card-header>
+    <card-content>
+      <form @submit.prevent="onSubmit">
+        <div class="grid w-full items-center gap-4">
+          <div class="flex flex-col space-y-1.5">
+            <Label for="email">Email</Label>
+            <Input
+              v-bind="emailAttrs"
+              id="email"
+              v-model="email"
+              type="email"
+              placeholder="m@example.com"
+            />
+            <span v-if="errors.email">{{ errors.email }}</span>
           </div>
-        </form>
-      </card-content>
-      <card-footer class="flex flex-col gap-2">
-        <Button
-          class="w-full"
-          :disabled="isLoading"
-          @click="onSubmit"
-        >
-          {{ isLoading ? "Loading..." : "Sign in" }}
-        </Button>
-        <Button variant="outline" class="w-full">
-          Login with Google
-        </Button>
-      </card-footer>
-    </card>
-  </div>
+          <div class="flex flex-col space-y-1.5">
+            <div class="flex items-center">
+              <Label for="password">Password</Label>
+              <a
+                href="#"
+                class="ml-auto inline-block text-sm underline"
+              >
+                Forgot your password?
+              </a>
+            </div>
+            <Input
+              v-bind="passwordAttrs"
+              id="password"
+              v-model="password"
+              type="password"
+            />
+            <span v-if="errors.password">{{ errors.password }}</span>
+          </div>
+          <span v-if="error">{{ error }}</span>
+        </div>
+      </form>
+    </card-content>
+    <card-footer class="flex flex-col gap-2">
+      <Button
+        class="w-full"
+        :disabled="isLoading"
+        @click="onSubmit"
+      >
+        {{ isLoading ? "Loading..." : "Sign in" }}
+      </Button>
+      <Button variant="outline" class="w-full">
+        Login with Google
+      </Button>
+    </card-footer>
+  </card>
 </template>
 
 <script setup lang="ts">

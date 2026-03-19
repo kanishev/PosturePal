@@ -39,8 +39,8 @@ export default defineNuxtConfig({
     componentDir: "@/shared/components/ui",
   },
   supabase: {
-    url: process.env.SUPABASE_URL,
-    key: process.env.SUPABASE_PUBLISHABLE_KEY,
+    url: process.env.SUPABASE_URL ?? "https://test.supabase.co",
+    key: process.env.SUPABASE_PUBLISHABLE_KEY ?? "test-key",
     types: "@/shared/types/supabase/database.types.ts",
   },
 });

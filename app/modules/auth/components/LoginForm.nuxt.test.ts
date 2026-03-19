@@ -1,10 +1,10 @@
 import { mockNuxtImport, mountSuspended } from "@nuxt/test-utils/runtime";
 import { flushPromises } from "@vue/test-utils";
-import { createPinia, setActivePinia } from "pinia";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import LoginForm from "./LoginForm.vue";
 
 const mockSignInWithPassword = vi.fn();
+const mockNavigateTo = vi.fn();
 
 mockNuxtImport("useSupabaseClient", () => () => ({
   auth: {
@@ -13,25 +13,28 @@ mockNuxtImport("useSupabaseClient", () => () => ({
 }));
 
 mockNuxtImport("useSupabaseUser", () => () => ref(null));
-mockNuxtImport("navigateTo", () => vi.fn());
+mockNuxtImport("navigateTo", () => (...args: unknown[]) => mockNavigateTo(...args));
 
 describe("LoginForm", () => {
   beforeEach(() => {
-    setActivePinia(createPinia());
     vi.clearAllMocks();
+  });
+
+  it("renders email and password fields", async () => {
+    const wrapper = await mountSuspended(LoginForm);
+    expect(wrapper.find("#email").exists()).toBe(true);
+    expect(wrapper.find("#password").exists()).toBe(true);
   });
 
   it("shows validation errors for invalid input", async () => {
     const wrapper = await mountSuspended(LoginForm);
-
     await wrapper.find("#email").setValue("not-an-email");
     await wrapper.find("#password").setValue("123");
-
     await wrapper.find("form").trigger("submit");
 
     await flushPromises();
 
-    vi.waitFor(() => {
+    await vi.waitFor(() => {
       const text = wrapper.text();
       expect(text).toContain("Некорректный email");
       expect(text).toContain("Минимум 6 символов");
@@ -82,14 +85,18 @@ describe("LoginForm", () => {
     await wrapper.find("#password").setValue("123456");
 
     await wrapper.find("form").trigger("submit");
-    const button = wrapper.find("button[type='submit']");
-
     await flushPromises();
 
     await vi.waitFor(() => {
-      expect(button.attributes()).toHaveProperty("disabled");
+      expect(wrapper.find("[data-testid='submit-button']").attributes()).toHaveProperty("disabled");
     });
 
     resolvePromise({ error: null });
+  });
+
+  it("navigates to register page on Sign Up click", async () => {
+    const wrapper = await mountSuspended(LoginForm);
+    await wrapper.find("[data-testid='sign-up-button']").trigger("click");
+    expect(mockNavigateTo).toHaveBeenCalledWith("/register");
   });
 });

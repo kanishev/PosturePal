@@ -8,8 +8,10 @@
         </card-description>
         <card-action>
           <Button
+            as="button"
             variant="link"
             type="button"
+            data-testid="sign-up-button"
             @click="navigateTo('/register')"
           >
             Sign Up
@@ -60,6 +62,7 @@
           as="button"
           class="w-full"
           type="submit"
+          data-testid="submit-button"
           :disabled="isLoading"
         >
           {{ isLoading ? "Loading..." : "Sign in" }}
@@ -68,6 +71,7 @@
           as="button"
           variant="outline"
           type="button"
+          data-testid="google-button"
           class="w-full"
         >
           Login with Google

@@ -6,7 +6,6 @@ export default {
       name: "home",
       path: "/",
       component: () => import("~/pages/home.vue"),
-      meta: { middleware: ["auth"] },
     },
     {
       name: "login",

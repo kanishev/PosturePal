@@ -42,5 +42,10 @@ export default defineNuxtConfig({
     url: process.env.SUPABASE_URL ?? "https://test.supabase.co",
     key: process.env.SUPABASE_PUBLISHABLE_KEY ?? "test-key",
     types: "@/shared/types/supabase/database.types.ts",
+    redirectOptions: {
+      login: "/login",
+      callback: "/confirm",
+      exclude: ["/register"],
+    },
   },
 });

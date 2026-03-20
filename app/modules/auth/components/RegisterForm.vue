@@ -1,18 +1,24 @@
 <template>
   <Card class="w-full max-w-sm">
-    <card-header>
-      <card-title>Create an account</card-title>
-      <card-description>
-        Enter your email below to create your account
-      </card-description>
-      <card-action>
-        <Button variant="link" @click="navigateTo('/login')">
-          Sign In
-        </Button>
-      </card-action>
-    </card-header>
-    <card-content>
-      <form @submit.prevent="onSubmit">
+    <form @submit.prevent="onSubmit">
+      <card-header>
+        <card-title>Create an account</card-title>
+        <card-description>
+          Enter your email below to create your account
+        </card-description>
+        <card-action>
+          <Button
+            as="button"
+            variant="link"
+            type="button"
+            data-testid="sign-in-button"
+            @click="navigateTo('/login')"
+          >
+            Sign In
+          </Button>
+        </card-action>
+      </card-header>
+      <card-content>
         <div class="grid w-full items-center gap-4">
           <div class="flex flex-col space-y-1.5">
             <Label for="email">Email</Label>
@@ -23,7 +29,7 @@
               type="email"
               placeholder="m@example.com"
             />
-            <span v-if="errors.email" class="text-sm text-red-500">{{ errors.email }}</span>
+            <span v-if="errors.email" class="text-sm text-destructive">{{ errors.email }}</span>
           </div>
           <div class="flex flex-col space-y-1.5">
             <Label for="password">Password</Label>
@@ -33,7 +39,7 @@
               v-bind="passwordAttrs"
               type="password"
             />
-            <span v-if="errors.password" class="text-sm text-red-500">{{ errors.password }}</span>
+            <span v-if="errors.password" class="text-sm text-destructive">{{ errors.password }}</span>
           </div>
           <div class="flex flex-col space-y-1.5">
             <Label for="confirmPassword">Confirm Password</Label>
@@ -43,28 +49,37 @@
               v-bind="confirmPasswordAttrs"
               type="password"
             />
-            <span v-if="errors.confirmPassword" class="text-sm text-red-500">{{ errors.confirmPassword }}</span>
+            <span v-if="errors.confirmPassword" class="text-sm text-destructive">{{ errors.confirmPassword }}</span>
           </div>
-          <span v-if="error" class="text-sm text-red-500">{{ error }}</span>
+          <span v-if="error" class="text-sm text-destructive">{{ error }}</span>
         </div>
-      </form>
-    </card-content>
-    <card-footer class="flex flex-col gap-2">
-      <Button
-        class="w-full"
-        :disabled="isLoading"
-        @click="onSubmit"
-      >
-        {{ isLoading ? "Loading..." : "Sign Up" }}
-      </Button>
-      <Button variant="outline" class="w-full">
-        Sign Up with Google
-      </Button>
-    </card-footer>
+      </card-content>
+      <card-footer class="flex flex-col gap-2">
+        <Button
+          as="button"
+          class="w-full"
+          type="submit"
+          data-testid="submit-button"
+          :disabled="isLoading"
+        >
+          {{ isLoading ? "Loading..." : "Sign Up" }}
+        </Button>
+        <Button
+          as="button"
+          variant="outline"
+          type="button"
+          data-testid="google-button"
+          class="w-full"
+        >
+          Sign Up with Google
+        </Button>
+      </card-footer>
+    </form>
   </Card>
 </template>
 
 <script setup lang="ts">
+import { navigateTo } from "#app";
 import { toTypedSchema } from "@vee-validate/zod";
 import { useForm } from "vee-validate";
 import { ref } from "vue";
@@ -81,7 +96,7 @@ const isLoading = ref(false);
 
 const schema = toTypedSchema(
   z.object({
-    email: z.string().email("Некорректный email"),
+    email: z.string().min(1, "Введите email").email("Некорректный email"),
     password: z.string().min(6, "Минимум 6 символов"),
     confirmPassword: z.string(),
   }).refine(data => data.password === data.confirmPassword, {
@@ -101,6 +116,7 @@ const onSubmit = handleSubmit(async (values) => {
     isLoading.value = true;
     error.value = null;
     await authStore.register(values.email, values.password);
+    await navigateTo("/");
   }
   catch (e: unknown) {
     error.value = e instanceof Error ? e.message : "Ошибка регистрации";

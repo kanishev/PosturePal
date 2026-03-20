@@ -12,7 +12,6 @@ mockNuxtImport("useSupabaseClient", () => () => ({
   },
 }));
 
-mockNuxtImport("useSupabaseUser", () => () => ref(null));
 mockNuxtImport("navigateTo", () => (...args: unknown[]) => mockNavigateTo(...args));
 
 describe("LoginForm", () => {

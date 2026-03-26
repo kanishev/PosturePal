@@ -52,8 +52,6 @@
               {{ errors.password }}
             </span>
           </div>
-
-          <span v-if="error" class="text-sm text-destructive">{{ error }}</span>
         </div>
       </card-content>
 
@@ -85,6 +83,7 @@
 import { toTypedSchema } from "@vee-validate/zod";
 import { useForm } from "vee-validate";
 import { ref } from "vue";
+import { toast } from "vue-sonner";
 import { z } from "zod";
 import { Button } from "~/shared/components/ui/button";
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "~/shared/components/ui/card";
@@ -116,7 +115,9 @@ const onSubmit = handleSubmit(async (values) => {
     await navigateTo("/");
   }
   catch (e: unknown) {
-    error.value = e instanceof Error ? e.message : "Ошибка входа";
+    const message = e instanceof Error ? e.message : "Ошибка входа";
+    error.value = message;
+    toast.error(message);
   }
   finally {
     isLoading.value = false;

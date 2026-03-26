@@ -51,7 +51,6 @@
             />
             <span v-if="errors.confirmPassword" class="text-sm text-destructive">{{ errors.confirmPassword }}</span>
           </div>
-          <span v-if="error" class="text-sm text-destructive">{{ error }}</span>
         </div>
       </card-content>
       <card-footer class="flex flex-col gap-2">
@@ -83,6 +82,7 @@ import { navigateTo } from "#app";
 import { toTypedSchema } from "@vee-validate/zod";
 import { useForm } from "vee-validate";
 import { ref } from "vue";
+import { toast } from "vue-sonner";
 import { z } from "zod";
 import { Button } from "~/shared/components/ui/button";
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "~/shared/components/ui/card";
@@ -119,7 +119,9 @@ const onSubmit = handleSubmit(async (values) => {
     await navigateTo("/");
   }
   catch (e: unknown) {
-    error.value = e instanceof Error ? e.message : "Ошибка регистрации";
+    const message = e instanceof Error ? e.message : "Ошибка регистрации";
+    error.value = message;
+    toast.error(message);
   }
   finally {
     isLoading.value = false;

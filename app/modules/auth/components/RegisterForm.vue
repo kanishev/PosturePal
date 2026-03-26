@@ -2,10 +2,8 @@
   <Card class="w-full max-w-sm">
     <form @submit.prevent="onSubmit">
       <card-header>
-        <card-title>Create an account</card-title>
-        <card-description>
-          Enter your email below to create your account
-        </card-description>
+        <card-title>{{ t('register.title') }}</card-title>
+        <card-description>{{ t('register.description') }}</card-description>
         <card-action>
           <Button
             as="button"
@@ -14,14 +12,14 @@
             data-testid="sign-in-button"
             @click="navigateTo('/login')"
           >
-            Sign In
+            {{ t('register.signIn') }}
           </Button>
         </card-action>
       </card-header>
       <card-content>
         <div class="grid w-full items-center gap-4">
           <div class="flex flex-col space-y-1.5">
-            <Label for="email">Email</Label>
+            <Label for="email">{{ t('register.email') }}</Label>
             <Input
               id="email"
               v-model="email"
@@ -32,7 +30,7 @@
             <span v-if="errors.email" class="text-sm text-destructive">{{ errors.email }}</span>
           </div>
           <div class="flex flex-col space-y-1.5">
-            <Label for="password">Password</Label>
+            <Label for="password">{{ t('register.password') }}</Label>
             <Input
               id="password"
               v-model="password"
@@ -42,7 +40,7 @@
             <span v-if="errors.password" class="text-sm text-destructive">{{ errors.password }}</span>
           </div>
           <div class="flex flex-col space-y-1.5">
-            <Label for="confirmPassword">Confirm Password</Label>
+            <Label for="confirmPassword">{{ t('register.confirmPassword') }}</Label>
             <Input
               id="confirmPassword"
               v-model="confirmPassword"
@@ -61,7 +59,7 @@
           data-testid="submit-button"
           :disabled="isLoading"
         >
-          {{ isLoading ? "Loading..." : "Sign Up" }}
+          {{ isLoading ? t('common.loading') : t('register.submit') }}
         </Button>
         <Button
           as="button"
@@ -70,7 +68,7 @@
           data-testid="google-button"
           class="w-full"
         >
-          Sign Up with Google
+          {{ t('register.googleSignUp') }}
         </Button>
       </card-footer>
     </form>
@@ -82,6 +80,7 @@ import { navigateTo } from "#app";
 import { toTypedSchema } from "@vee-validate/zod";
 import { useForm } from "vee-validate";
 import { ref } from "vue";
+import { useI18n } from "vue-i18n";
 import { toast } from "vue-sonner";
 import { z } from "zod";
 import { Button } from "~/shared/components/ui/button";
@@ -90,23 +89,23 @@ import { Input } from "~/shared/components/ui/input";
 import { Label } from "~/shared/components/ui/label";
 import { useAuthStore } from "../stores/auth.store";
 
+const { t } = useI18n();
 const authStore = useAuthStore();
 const error = ref<string | null>(null);
 const isLoading = ref(false);
 
 const schema = toTypedSchema(
   z.object({
-    email: z.string().min(1, "Введите email").email("Некорректный email"),
-    password: z.string().min(6, "Минимум 6 символов"),
+    email: z.string().min(1, t("register.errors.enterEmail")).email(t("register.errors.invalidEmail")),
+    password: z.string().min(6, t("register.errors.minPassword")),
     confirmPassword: z.string(),
   }).refine(data => data.password === data.confirmPassword, {
-    message: "Пароли не совпадают",
+    message: t("register.errors.passwordsMismatch"),
     path: ["confirmPassword"],
   }),
 );
 
 const { handleSubmit, defineField, errors } = useForm({ validationSchema: schema });
-
 const [email, emailAttrs] = defineField("email");
 const [password, passwordAttrs] = defineField("password");
 const [confirmPassword, confirmPasswordAttrs] = defineField("confirmPassword");
@@ -119,7 +118,7 @@ const onSubmit = handleSubmit(async (values) => {
     await navigateTo("/");
   }
   catch (e: unknown) {
-    const message = e instanceof Error ? e.message : "Ошибка регистрации";
+    const message = e instanceof Error ? e.message : t("register.errors.registerFailed");
     error.value = message;
     toast.error(message);
   }

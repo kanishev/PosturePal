@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "@nuxt/test-utils/module",
     "@nuxt/eslint",
+    "@nuxtjs/i18n",
   ],
   devtools: { enabled: true },
   css: ["~/assets/css/tailwind.css"],
@@ -33,6 +34,14 @@ export default defineNuxtConfig({
     config: {
       stylistic: true,
     },
+  },
+  i18n: {
+    locales: [
+      { code: "en", name: "English" },
+      { code: "ru", name: "Русский" },
+    ],
+    defaultLocale: "en",
+    vueI18n: "@/configs/i18n.config.ts",
   },
   shadcn: {
     prefix: "",

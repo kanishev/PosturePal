@@ -1,0 +1,80 @@
+export default defineI18nConfig(() => ({
+  legacy: false,
+  locale: "en",
+  messages: {
+    en: {
+      common: {
+        loading: "Loading",
+      },
+      login: {
+        title: "Login to your account",
+        description: "Enter your email below to login to your account",
+        email: "Email",
+        password: "Password",
+        submit: "Sign in",
+        signUp: "Sign Up",
+        forgotPassword: "Forgot your password?",
+        googleLogin: "Login with Google",
+        errors: {
+          invalidEmail: "Invalid email",
+          minPassword: "Minimum 6 characters",
+          loginFailed: "Login failed",
+        },
+      },
+      register: {
+        title: "Create an account",
+        description: "Enter your email below to create your account",
+        email: "Email",
+        password: "Password",
+        confirmPassword: "Confirm Password",
+        submit: "Sign Up",
+        signIn: "Sign In",
+        googleSignUp: "Sign Up with Google",
+        errors: {
+          invalidEmail: "Invalid email",
+          enterEmail: "Enter email",
+          minPassword: "Minimum 6 characters",
+          passwordsMismatch: "Passwords do not match",
+          registerFailed: "Registration failed",
+        },
+      },
+    },
+    ru: {
+      common: {
+        loading: "Загрузка",
+      },
+      login: {
+        title: "Войти в аккаунт",
+        description: "Введите свой Email ниже для входа",
+        email: "Email",
+        password: "Пароль",
+        submit: "Войти",
+        signUp: "Регистрация",
+        forgotPassword: "Забыли пароль?",
+        googleLogin: "Войти через Google",
+        errors: {
+          invalidEmail: "Некорректный email",
+          minPassword: "Минимум 6 символов",
+          loginFailed: "Ошибка входа",
+        },
+      },
+      register: {
+        title: "Создать аккаунт",
+        description: "Введите email ниже для создания аккаунта",
+        email: "Email",
+        password: "Пароль",
+        confirmPassword: "Подтвердите пароль",
+        submit: "Зарегистрироваться",
+        signIn: "Войти",
+        googleSignUp: "Зарегистрироваться через Google",
+        errors: {
+          invalidEmail: "Некорректный email",
+          enterEmail: "Введите email",
+          minPassword: "Минимум 6 символов",
+          passwordsMismatch: "Пароли не совпадают",
+          registerFailed: "Ошибка регистрации",
+        },
+      },
+    },
+  },
+}));

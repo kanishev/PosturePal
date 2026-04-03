@@ -4,4 +4,8 @@
 
 <script setup lang="ts">
 import { RegisterForm } from "~/modules/auth";
+
+definePageMeta({
+  layout: "auth",
+});
 </script>

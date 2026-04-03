@@ -13,5 +13,9 @@
 import { Button } from "@/shared/components/ui/button";
 import { useAuthStore } from "../modules/auth/stores/auth.store";
 
+definePageMeta({
+  layout: "default",
+});
+
 const authStore = useAuthStore();
 </script>

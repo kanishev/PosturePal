@@ -4,4 +4,8 @@
 
 <script setup lang="ts">
 import { LoginForm } from "~/modules/auth";
+
+definePageMeta({
+  layout: "auth",
+});
 </script>

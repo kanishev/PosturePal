@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     "@nuxt/test-utils/module",
     "@nuxt/eslint",
     "@nuxtjs/i18n",
+    "@nuxt/fonts",
   ],
   devtools: { enabled: true },
   css: ["~/assets/css/tailwind.css"],
@@ -34,6 +35,11 @@ export default defineNuxtConfig({
     config: {
       stylistic: true,
     },
+  },
+  fonts: {
+    families: [
+      { name: "Plus Jakarta Sans", provider: "google", weights: [400, 500, 600, 700] },
+    ],
   },
   i18n: {
     locales: [

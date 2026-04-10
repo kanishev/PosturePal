@@ -16,7 +16,8 @@
     "prepare": "husky",
     "typecheck": "nuxt typecheck",
     "gen:types": "npx supabase gen types typescript --project-id $SUPABASE_PROJECT_ID > app/shared/types/supabace/database.types.ts",
-    "gen:types:local": "npx supabase gen types typescript --local > types/database.types.ts"
+    "gen:types:local": "npx supabase gen types typescript --local > types/database.types.ts",
+    "db:seed": "npx tsx server/db/seed.ts"
   },
   "dependencies": {
     "@nuxt/eslint": "^1.15.2",
@@ -29,6 +30,7 @@
     "@vueuse/core": "^14.2.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "dotenv": "^17.4.1",
     "lucide-vue-next": "^0.575.0",
     "nuxt": "^4.3.1",
     "pinia": "^3.0.4",
@@ -50,6 +52,7 @@
     "husky": "^9.1.7",
     "playwright-core": "^1.58.2",
     "tailwindcss": "^4.2.0",
+    "tsx": "^4.21.0",
     "tw-animate-css": "^1.4.0",
     "typescript": "^5.8.3",
     "vitest": "^4.0.18",

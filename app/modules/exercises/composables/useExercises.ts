@@ -1,9 +1,11 @@
 import { ref } from "vue";
+import { useI18n } from "vue-i18n";
 import type { TableRow } from "~/shared/types/supabase";
 
 type Exercise = TableRow<"exercises">;
 
 export function useExercises() {
+  const { locale } = useI18n();
   const exercises = ref<Exercise[]>([]);
   const isLoading = ref(false);
   const error = ref<string | null>(null);
@@ -12,7 +14,11 @@ export function useExercises() {
     try {
       isLoading.value = true;
       error.value = null;
-      const data = await $fetch<Exercise[]>("/api/exercises");
+
+      const data = await $fetch<Exercise[]>("/api/exercises", {
+        query: { locale: locale.value },
+      });
+
       exercises.value = data;
     }
     catch (e: unknown) {

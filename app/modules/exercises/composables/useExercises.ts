@@ -1,4 +1,3 @@
-import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 import type { TableRow } from "~/shared/types/supabase";
 
@@ -6,28 +5,25 @@ type Exercise = TableRow<"exercises">;
 
 export function useExercises() {
   const { locale } = useI18n();
-  const exercises = ref<Exercise[]>([]);
-  const isLoading = ref(false);
-  const error = ref<string | null>(null);
 
-  async function fetchExercises() {
-    try {
-      isLoading.value = true;
-      error.value = null;
+  const {
+    data: exercises,
+    pending: isLoading,
+    error,
+    refresh,
+  } = useFetch<Exercise[]>("/api/exercises", {
+    query: { locale },
+    key: `exercises-list-${locale.value}`,
 
-      const data = await $fetch<Exercise[]>("/api/exercises", {
-        query: { locale: locale.value },
-      });
+    transform: (data) => {
+      return data || [];
+    },
+  });
 
-      exercises.value = data;
-    }
-    catch (e: unknown) {
-      error.value = e instanceof Error ? e.message : "Failed to fetch exercises";
-    }
-    finally {
-      isLoading.value = false;
-    }
-  }
-
-  return { exercises, isLoading, error, fetchExercises };
+  return {
+    exercises,
+    isLoading,
+    error,
+    fetchData: refresh,
+  };
 }

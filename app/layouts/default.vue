@@ -26,4 +26,6 @@
 import { useI18n } from "vue-i18n";
 
 const { setLocale } = useI18n();
+
+useI18nData();
 </script>

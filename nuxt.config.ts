@@ -12,6 +12,7 @@ export default defineNuxtConfig({
   ],
   devtools: { enabled: true },
   css: ["~/assets/css/tailwind.css"],
+  srcDir: "app",
   compatibilityDate: "2025-07-15",
   vite: {
     plugins: [
@@ -42,12 +43,17 @@ export default defineNuxtConfig({
     ],
   },
   i18n: {
-    locales: [
-      { code: "en", name: "English" },
-      { code: "ru", name: "Русский" },
-    ],
+    strategy: "prefix_except_default",
     defaultLocale: "en",
-    vueI18n: "@/configs/i18n.config.ts",
+    locales: [
+      { code: "en", iso: "en-US" },
+      { code: "ru", iso: "ru-RU" },
+    ],
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: "i18n_redirected",
+      redirectOn: "root",
+    },
   },
   shadcn: {
     prefix: "",

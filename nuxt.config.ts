@@ -12,7 +12,6 @@ export default defineNuxtConfig({
   ],
   devtools: { enabled: true },
   css: ["~/assets/css/tailwind.css"],
-  srcDir: "app",
   compatibilityDate: "2025-07-15",
   vite: {
     plugins: [

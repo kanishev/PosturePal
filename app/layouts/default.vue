@@ -24,6 +24,7 @@
 
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
+import { useI18nData } from "~/common/composables/useI18nData";
 
 const { setLocale } = useI18n();
 

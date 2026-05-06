@@ -3,8 +3,14 @@ import type { TableRow } from "~/shared/types/supabase";
 
 type Exercise = TableRow<"exercises">;
 
-export function useExercises() {
+type UseExercisesOptions = {
+  search?: Ref<string>
+};
+
+export function useExercises(options?: UseExercisesOptions) {
   const { locale } = useI18n();
+
+  const searchRef = options?.search ?? ref("");
 
   const {
     data: exercises,
@@ -12,9 +18,11 @@ export function useExercises() {
     error,
     refresh,
   } = useFetch<Exercise[]>("/api/exercises", {
-    query: { locale },
-    key: `exercises-list-${locale.value}`,
-
+    query: {
+      locale: locale,
+      search: searchRef,
+    },
+    key: computed(() => `exercises-list-${locale.value}-${searchRef.value ? "search" : "all"}`),
     transform: (data) => {
       return data || [];
     },

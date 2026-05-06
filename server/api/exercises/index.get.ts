@@ -11,19 +11,30 @@ export default defineEventHandler(async (event) => {
   const supabase = await serverSupabaseClient(event);
   const query = getQuery(event);
   const locale = query.locale as string ?? "en";
+  const search = query.search as string | undefined;
 
-  const { data, error } = await supabase
+  let dbQuery = supabase
     .from("exercises")
     .select(`
-      *,
-      exercise_translations (
-        name,
-        description,
-        instructions,
-        locale
-      )
-    `)
+        *,
+        exercise_translations (
+          name,
+          description,
+          instructions,
+          locale
+        )
+      `)
     .eq("exercise_translations.locale", locale);
+
+  if (search) {
+    if (locale === "en") {
+      dbQuery = dbQuery.ilike("name", `%${search}%`);
+    }
+    else {
+      dbQuery = dbQuery.ilike("exercise_translations.name", `%${search}%`);
+    }
+  }
+  const { data, error } = await dbQuery;
 
   if (error) {
     throw createError({

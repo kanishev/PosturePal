@@ -17,6 +17,7 @@
     "typecheck": "nuxt typecheck",
     "gen:types": "npx supabase gen types typescript --project-id $SUPABASE_PROJECT_ID > app/shared/types/supabace/database.types.ts",
     "gen:types:local": "npx supabase gen types typescript --local > types/database.types.ts",
+    "gen:images": "npx tsx server/db/image-generator.ts",
     "db:seed": "npx tsx server/db/seed.ts",
     "db:seed:translations": "npx tsx server/db/seed-translations.ts"
   },

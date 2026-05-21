@@ -2,7 +2,7 @@
   <Card class="cursor-pointer hover:shadow-xl transition-all overflow-hidden group relative h-full">
     <div
       class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-      :style="{ backgroundImage: `url(${exercise.image_url})` }"
+      :style="{ backgroundImage: `url(${getExerciseImageUrl(exercise.image_path, 'card')})` }"
     >
       <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/40 to-black/20" />
     </div>
@@ -43,6 +43,7 @@
 import { computed } from "vue";
 import { Badge } from "~/shared/components/ui/badge";
 import { Card } from "~/shared/components/ui/card";
+import { getExerciseImageUrl } from "~/shared/lib/image";
 import type { TableRow } from "~/shared/types/supabase";
 
 type Exercise = TableRow<"exercises">;

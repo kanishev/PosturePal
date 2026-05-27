@@ -9,9 +9,9 @@
       </button>
     </div>
 
-    <main class="flex-1 overflow-y-auto p-6">
+    <div class="flex-1 overflow-y-auto p-6 pb-12.5">
       <slot />
-    </main>
+    </div>
 
     <navigation-bar />
   </div>

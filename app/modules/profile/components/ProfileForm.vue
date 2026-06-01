@@ -1,0 +1,150 @@
+<template>
+  <form @submit.prevent="onSubmit">
+    <div class="flex flex-col gap-4">
+      <div class="flex flex-col gap-1.5">
+        <Label for="full_name">{{ t('profile.fullName') }}</Label>
+        <Input
+          id="full_name"
+          v-model="full_name!"
+          v-bind="fullNameAttrs"
+          type="text"
+          :placeholder="t('profile.fullNamePlaceholder')"
+        />
+        <span v-if="errors.full_name" class="text-sm text-destructive">{{ errors.full_name }}</span>
+      </div>
+
+      <div class="flex flex-col gap-1.5">
+        <Label for="username">{{ t('profile.username') }}</Label>
+        <Input
+          id="username"
+          v-model="username!"
+          v-bind="usernameAttrs"
+          type="text"
+          :placeholder="t('profile.usernamePlaceholder')"
+        />
+        <span v-if="errors.username" class="text-sm text-destructive">{{ errors.username }}</span>
+      </div>
+
+      <div class="flex gap-4">
+        <div class="flex flex-1 flex-col gap-1.5">
+          <Label for="weight">{{ t('profile.weight') }}</Label>
+          <Input
+            id="weight"
+            v-model="weight!"
+            v-bind="weightAttrs"
+            type="number"
+          />
+          <span v-if="errors.weight" class="text-sm text-destructive">{{ errors.weight }}</span>
+        </div>
+
+        <div class="flex flex-1 flex-col gap-1.5">
+          <Label for="height">{{ t('profile.height') }}</Label>
+          <Input
+            id="height"
+            v-model="height!"
+            v-bind="heightAttrs"
+            type="number"
+          />
+          <span v-if="errors.height" class="text-sm text-destructive">{{ errors.height }}</span>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-1.5">
+        <Label for="date_of_birth">{{ t('profile.dateOfBirth') }}</Label>
+        <Input
+          id="date_of_birth"
+          v-model="date_of_birth!"
+          v-bind="dateOfBirthAttrs"
+          type="date"
+        />
+        <span v-if="errors.date_of_birth" class="text-sm text-destructive">{{ errors.date_of_birth }}</span>
+      </div>
+
+      <div class="flex flex-col gap-1.5">
+        <Label>{{ t('profile.gender') }}</Label>
+        <div class="flex gap-3">
+          <Button
+            v-for="option in genderOptions"
+            :key="option.value"
+            as="button"
+            type="button"
+            :variant="gender === option.value ? 'default' : 'outline'"
+            class="flex-1"
+            @click="gender = option.value"
+          >
+            {{ option.label }}
+          </Button>
+        </div>
+        <span v-if="errors.gender" class="text-sm text-destructive">{{ errors.gender }}</span>
+      </div>
+
+      <span v-if="error" class="text-sm text-destructive">{{ error }}</span>
+
+      <Button
+        as="button"
+        type="submit"
+        class="w-full"
+        :disabled="isLoading"
+      >
+        {{ isLoading ? t('common.loading') : t('profile.save') }}
+      </Button>
+    </div>
+  </form>
+</template>
+
+<script setup lang="ts">
+import { toTypedSchema } from "@vee-validate/zod";
+import { useForm } from "vee-validate";
+import { useI18n } from "vue-i18n";
+import { toast } from "vue-sonner";
+import { Button } from "~/shared/components/ui/button";
+import { Input } from "~/shared/components/ui/input";
+import { Label } from "~/shared/components/ui/label";
+import { useProfile } from "../composables/useProfile";
+import { profileSchema } from "../schemas/profile.schema";
+
+const { t } = useI18n();
+const { profile, isLoading, error, updateProfile } = useProfile();
+
+const schema = toTypedSchema(profileSchema);
+
+const { handleSubmit, defineField, errors, setValues } = useForm({
+  validationSchema: schema,
+});
+
+const [full_name, fullNameAttrs] = defineField("full_name");
+const [username, usernameAttrs] = defineField("username");
+const [weight, weightAttrs] = defineField("weight");
+const [height, heightAttrs] = defineField("height");
+const [date_of_birth, dateOfBirthAttrs] = defineField("date_of_birth");
+const [gender] = defineField("gender");
+
+const genderOptions = [
+  { value: "male", label: t("profile.male") },
+  { value: "female", label: t("profile.female") },
+  { value: "other", label: t("profile.other") },
+] as const;
+
+watch(profile, (val) => {
+  if (val) {
+    setValues({
+      full_name: val.full_name,
+      username: val.username,
+      weight: val.weight,
+      height: val.height,
+      date_of_birth: val.date_of_birth,
+      gender: val.gender,
+    });
+  }
+}, { immediate: true });
+
+const onSubmit = handleSubmit(async (values) => {
+  try {
+    await updateProfile(values);
+    toast.success(t("profile.saveSuccess"));
+  }
+  catch {
+    toast.error(t("profile.saveError"));
+  }
+});
+</script>

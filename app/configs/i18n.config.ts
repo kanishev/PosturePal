@@ -5,6 +5,9 @@ export default defineI18nConfig(() => ({
     en: {
       common: {
         loading: "Loading",
+        weight: "Weight",
+        height: "Height",
+        todoToday: "Todo Today",
       },
       login: {
         title: "Login to your account",
@@ -38,10 +41,28 @@ export default defineI18nConfig(() => ({
           registerFailed: "Registration failed",
         },
       },
+      dashboard: {
+        greeting: "Hi, {name}!",
+        question: "Have you exercised today?",
+        hero: {
+          title: "Healthy life belongs to everyone",
+          cta: "Start Exercising",
+        },
+        category: "Category",
+        popularWorkout: "Popular Workout",
+        seeAll: "See all",
+        categories: {
+          neck: "Neck",
+          back: "Back",
+        },
+      },
     },
     ru: {
       common: {
         loading: "Загрузка",
+        weight: "Вес",
+        height: "Рост",
+        todoToday: "Сделать сегодня",
       },
       login: {
         title: "Войти в аккаунт",
@@ -73,6 +94,21 @@ export default defineI18nConfig(() => ({
           minPassword: "Минимум 6 символов",
           passwordsMismatch: "Пароли не совпадают",
           registerFailed: "Ошибка регистрации",
+        },
+      },
+      dashboard: {
+        greeting: "Привет, {name}!",
+        question: "Ты сегодня занимался?",
+        hero: {
+          title: "Здоровая жизнь доступна каждому",
+          cta: "Начать тренировку",
+        },
+        category: "Категория",
+        popularWorkout: "Популярные тренировки",
+        seeAll: "Все",
+        categories: {
+          neck: "Шея",
+          back: "Спина",
         },
       },
     },

@@ -10,9 +10,9 @@ export default defineEventHandler(async (event) => {
 
   const { data, error } = await supabase
     .from("profiles")
-    .select("*")
-    .eq("id", user.sub)
-    .maybeSingle();
+    .upsert({ id: user.sub }, { onConflict: "id" })
+    .select()
+    .single();
 
   if (error) {
     throw createError({ statusCode: 500, message: error.message });

@@ -2,10 +2,10 @@
   <form @submit.prevent="onSubmit">
     <div class="flex flex-col gap-4">
       <div class="flex flex-col gap-1.5">
-        <Label for="full_name">{{ t('profile.fullName') }}</Label>
+        <Label for="fullName">{{ t('profile.fullName') }}</Label>
         <Input
-          id="full_name"
-          v-model="full_name!"
+          id="fullName"
+          v-model="fullName!"
           v-bind="fullNameAttrs"
           type="text"
           :placeholder="t('profile.fullNamePlaceholder')"
@@ -50,14 +50,26 @@
       </div>
 
       <div class="flex flex-col gap-1.5">
-        <Label for="date_of_birth">{{ t('profile.dateOfBirth') }}</Label>
+        <Label for="dateOfBirth">{{ t('profile.dateOfBirth') }}</Label>
         <Input
-          id="date_of_birth"
-          v-model="date_of_birth!"
+          id="dateOfBirth"
+          v-model="dateOfBirth!"
           v-bind="dateOfBirthAttrs"
           type="date"
         />
         <span v-if="errors.date_of_birth" class="text-sm text-destructive">{{ errors.date_of_birth }}</span>
+      </div>
+
+      <div class="flex flex-col gap-1.5">
+        <Label for="avatarUrl">{{ t('profile.avatarUrl') }}</Label>
+        <Input
+          id="avatarUrl"
+          v-model="avatarUrl!"
+          v-bind="avatarUrlAttrs"
+          type="url"
+          :placeholder="t('profile.avatarUrlPlaceholder')"
+        />
+        <span v-if="errors.avatar_url" class="text-sm text-destructive">{{ errors.avatar_url }}</span>
       </div>
 
       <div class="flex flex-col gap-1.5">
@@ -112,11 +124,12 @@ const { handleSubmit, defineField, errors, setValues } = useForm({
   validationSchema: schema,
 });
 
-const [full_name, fullNameAttrs] = defineField("full_name");
+const [fullName, fullNameAttrs] = defineField("full_name");
 const [username, usernameAttrs] = defineField("username");
 const [weight, weightAttrs] = defineField("weight");
 const [height, heightAttrs] = defineField("height");
-const [date_of_birth, dateOfBirthAttrs] = defineField("date_of_birth");
+const [dateOfBirth, dateOfBirthAttrs] = defineField("date_of_birth");
+const [avatarUrl, avatarUrlAttrs] = defineField("avatar_url");
 const [gender] = defineField("gender");
 
 const genderOptions = [
@@ -133,18 +146,24 @@ watch(profile, (val) => {
       weight: val.weight,
       height: val.height,
       date_of_birth: val.date_of_birth,
+      avatar_url: val.avatar_url,
       gender: val.gender,
     });
   }
 }, { immediate: true });
 
-const onSubmit = handleSubmit(async (values) => {
-  try {
-    await updateProfile(values);
-    toast.success(t("profile.saveSuccess"));
-  }
-  catch {
-    toast.error(t("profile.saveError"));
-  }
-});
+const onSubmit = handleSubmit(
+  async (values) => {
+    try {
+      await updateProfile(values);
+      toast.success(t("profile.saveSuccess"));
+    }
+    catch {
+      toast.error(t("profile.saveError"));
+    }
+  },
+  (validationErrors) => {
+    console.log("validation errors:", validationErrors);
+  },
+);
 </script>

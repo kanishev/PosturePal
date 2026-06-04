@@ -73,6 +73,8 @@ export default defineI18nConfig(() => ({
         saveError: "Failed to update profile",
         title: "Profile",
         description: "Manage your personal information",
+        avatarUrl: "Avatar URL",
+        avatarUrlPlaceholder: "https://example.com/avatar.jpg",
       },
     },
     ru: {
@@ -146,6 +148,8 @@ export default defineI18nConfig(() => ({
         saveError: "Ошибка обновления профиля",
         title: "Профиль",
         description: "Управление личными данными",
+        avatarUrl: "Ссылка на аватар",
+        avatarUrlPlaceholder: "https://example.com/avatar.jpg",
       },
     },
   },

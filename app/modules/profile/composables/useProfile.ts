@@ -27,6 +27,7 @@ export function useProfile() {
 
   async function updateProfile(data: Partial<Profile>) {
     if (!user.value) return;
+    console.log("-aaa", data);
     try {
       isLoading.value = true;
       error.value = null;

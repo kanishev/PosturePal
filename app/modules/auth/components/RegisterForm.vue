@@ -96,11 +96,11 @@ const isLoading = ref(false);
 
 const schema = toTypedSchema(
   z.object({
-    email: z.string().min(1, t("register.errors.enterEmail")).email(t("register.errors.invalidEmail")),
-    password: z.string().min(6, t("register.errors.minPassword")),
+    email: z.string().min(1, t("register.errors.enterEmail")).email("Invalid email"),
+    password: z.string().min(6, "Minimum 6 characters"),
     confirmPassword: z.string(),
   }).refine(data => data.password === data.confirmPassword, {
-    message: t("register.errors.passwordsMismatch"),
+    message: "Passwords do not match",
     path: ["confirmPassword"],
   }),
 );

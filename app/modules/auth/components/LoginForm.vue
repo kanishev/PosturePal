@@ -97,8 +97,8 @@ const isLoading = ref(false);
 
 const schema = toTypedSchema(
   z.object({
-    email: z.string().min(1, t("login.errors.invalidEmail")).email(t("login.errors.invalidEmail")),
-    password: z.string().min(6, t("login.errors.minPassword")),
+    email: z.string().min(1, "Invalid email").email("Invalid email"),
+    password: z.string().min(6, "Minimum 6 characters"),
   }),
 );
 

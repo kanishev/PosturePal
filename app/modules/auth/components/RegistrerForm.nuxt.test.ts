@@ -34,9 +34,9 @@ describe("RegidterForm", () => {
 
     await vi.waitFor(() => {
       const text = wrapper.text();
-      expect(text).toContain("Некорректный email");
-      expect(text).toContain("Минимум 6 символов");
-      expect(text).toContain("Пароли не совпадают");
+      expect(text).toContain("Invalid email");
+      expect(text).toContain("Minimum 6 characters");
+      expect(text).toContain("Passwords do not match");
     });
   });
 

@@ -90,7 +90,7 @@
         <span v-if="errors.gender" class="text-sm text-destructive">{{ errors.gender }}</span>
       </div>
 
-      <span v-if="error" class="text-sm text-destructive">{{ error }}</span>
+      <span v-if="submitError" class="text-sm text-destructive">{{ submitError }}</span>
 
       <Button
         as="button"
@@ -113,10 +113,14 @@ import { Button } from "~/shared/components/ui/button";
 import { Input } from "~/shared/components/ui/input";
 import { Label } from "~/shared/components/ui/label";
 import { useProfile } from "../composables/useProfile";
-import { profileSchema } from "../schemas/profile.schema";
+import { profileSchema, type Profile } from "../schemas/profile.schema";
+
+const props = defineProps<{
+  profile?: Profile | null
+}>();
 
 const { t } = useI18n();
-const { profile, isLoading, error, updateProfile } = useProfile();
+const { isLoading, error: submitError, updateProfile } = useProfile();
 
 const schema = toTypedSchema(profileSchema);
 
@@ -138,7 +142,7 @@ const genderOptions = [
   { value: "other", label: t("profile.other") },
 ] as const;
 
-watch(profile, (val) => {
+watch(() => props.profile, (val) => {
   if (val) {
     setValues({
       full_name: val.full_name,

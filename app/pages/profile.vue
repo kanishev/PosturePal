@@ -13,22 +13,21 @@
       <span class="text-sm text-muted-foreground">{{ t('common.loading') }}</span>
     </div>
 
-    <profile-form v-else />
+    <profile-form v-else :profile="profile" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted } from "vue";
 import { useI18n } from "vue-i18n";
-import { useProfile } from "~/modules/profile";
-import ProfileForm from "~/modules/profile/components/ProfileForm.vue";
+import { ProfileForm, useProfile } from "~/modules/profile";
 
 definePageMeta({
   layout: "default",
 });
 
 const { t } = useI18n();
-const { isLoading, fetchProfile } = useProfile();
+const { profile, isLoading, fetchProfile } = useProfile();
 
 onMounted(() => {
   fetchProfile();

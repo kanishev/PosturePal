@@ -49,6 +49,7 @@
             />
             <span v-if="errors.confirmPassword" class="text-sm text-destructive">{{ errors.confirmPassword }}</span>
           </div>
+          <span v-if="error" class="text-sm text-destructive">{{ error }}</span>
         </div>
       </card-content>
       <card-footer class="flex flex-col gap-2">

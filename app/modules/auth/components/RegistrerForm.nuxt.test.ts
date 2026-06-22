@@ -67,6 +67,7 @@ describe("RegidterForm", () => {
     await wrapper.find("#password").setValue("123456");
     await wrapper.find("#confirmPassword").setValue("123456");
     await wrapper.find("form").trigger("submit");
+
     await flushPromises();
 
     await vi.waitFor(() => {

@@ -112,6 +112,7 @@ import { toast } from "vue-sonner";
 import { Button } from "~/shared/components/ui/button";
 import { Input } from "~/shared/components/ui/input";
 import { Label } from "~/shared/components/ui/label";
+import { handleErrorWithToast } from "~/shared/lib/handle-error";
 import { useProfile } from "../composables/useProfile";
 import { profileSchema, type Profile } from "../schemas/profile.schema";
 
@@ -162,8 +163,8 @@ const onSubmit = handleSubmit(
       await updateProfile(values);
       toast.success(t("profile.saveSuccess"));
     }
-    catch {
-      toast.error(t("profile.saveError"));
+    catch (e: unknown) {
+      handleErrorWithToast(e, t("profile.saveError"));
     }
   },
   (validationErrors) => {

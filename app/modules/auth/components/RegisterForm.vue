@@ -82,12 +82,12 @@ import { toTypedSchema } from "@vee-validate/zod";
 import { useForm } from "vee-validate";
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
-import { toast } from "vue-sonner";
 import { z } from "zod";
 import { Button } from "~/shared/components/ui/button";
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "~/shared/components/ui/card";
 import { Input } from "~/shared/components/ui/input";
 import { Label } from "~/shared/components/ui/label";
+import { handleErrorWithToast } from "~/shared/lib/handle-error";
 import { useAuthStore } from "../stores/auth.store";
 
 const { t } = useI18n();
@@ -119,9 +119,7 @@ const onSubmit = handleSubmit(async (values) => {
     await navigateTo("/");
   }
   catch (e: unknown) {
-    const message = e instanceof Error ? e.message : t("register.errors.registerFailed");
-    error.value = message;
-    toast.error(message);
+    error.value = handleErrorWithToast(e, t("register.errors.registerFailed"));
   }
   finally {
     isLoading.value = false;

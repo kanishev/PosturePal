@@ -88,6 +88,7 @@ import { Button } from "~/shared/components/ui/button";
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "~/shared/components/ui/card";
 import { Input } from "~/shared/components/ui/input";
 import { Label } from "~/shared/components/ui/label";
+import { getErrorMessage } from "~/shared/lib/handle-error";
 import { useAuthStore } from "../stores/auth.store";
 
 const { t } = useI18n();
@@ -114,7 +115,7 @@ const onSubmit = handleSubmit(async (values) => {
     await navigateTo("/");
   }
   catch (e: unknown) {
-    error.value = e instanceof Error ? e.message : t("login.errors.loginFailed");
+    error.value = getErrorMessage(e, t("login.errors.loginFailed"));
   }
   finally {
     isLoading.value = false;

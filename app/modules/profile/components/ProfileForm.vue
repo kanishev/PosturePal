@@ -113,7 +113,7 @@ import { Button } from "~/shared/components/ui/button";
 import { Input } from "~/shared/components/ui/input";
 import { Label } from "~/shared/components/ui/label";
 import { handleErrorWithToast } from "~/shared/lib/handle-error";
-import { useProfile } from "../composables/useProfile";
+import { useProfileStore } from "../index";
 import { profileSchema, type Profile } from "../schemas/profile.schema";
 
 const props = defineProps<{
@@ -121,7 +121,7 @@ const props = defineProps<{
 }>();
 
 const { t } = useI18n();
-const { isLoading, error: submitError, updateProfile } = useProfile();
+const { isLoading, error: submitError, updateProfile } = useProfileStore();
 
 const schema = toTypedSchema(profileSchema);
 

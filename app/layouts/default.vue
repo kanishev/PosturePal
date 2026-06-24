@@ -20,9 +20,15 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
 import { useI18nData } from "~/common/composables/useI18nData";
+import { useProfileStore } from "~/modules/profile";
 import NavigationBar from "./components/NavigationBar.vue";
 
 const { setLocale } = useI18n();
+const { fetchProfile } = useProfileStore();
+
+onMounted(() => {
+  fetchProfile();
+});
 
 useI18nData();
 </script>

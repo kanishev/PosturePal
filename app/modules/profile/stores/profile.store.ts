@@ -1,24 +1,24 @@
 import { useSupabaseUser } from "#imports";
+import { defineStore } from "pinia";
+import { ref } from "vue";
+import { handleError } from "~/shared/lib/handle-error";
 import type { Profile } from "../schemas/profile.schema";
 
-export function useProfile() {
+export const useProfileStore = defineStore("profile", () => {
   const user = useSupabaseUser();
+  const profile = ref<Profile | null>(null);
   const isLoading = ref(false);
   const error = ref<string | null>(null);
-
-  const { data: profile, refresh } = useFetch<Profile>("/api/profile", {
-    immediate: false,
-  });
 
   async function fetchProfile() {
     if (!user.value) return;
     try {
       isLoading.value = true;
       error.value = null;
-      await refresh();
+      profile.value = await $fetch<Profile>("/api/profile");
     }
     catch (e: unknown) {
-      error.value = e instanceof Error ? e.message : "Failed to fetch profile";
+      error.value = handleError(e, "Failed to fetch profile");
     }
     finally {
       isLoading.value = false;
@@ -27,18 +27,16 @@ export function useProfile() {
 
   async function updateProfile(data: Partial<Profile>) {
     if (!user.value) return;
-    console.log("-aaa", data);
     try {
       isLoading.value = true;
       error.value = null;
-      await $fetch("/api/profile", {
+      profile.value = await $fetch<Profile>("/api/profile", {
         method: "PATCH",
         body: data,
       });
-      await refresh();
     }
     catch (e: unknown) {
-      error.value = e instanceof Error ? e.message : "Failed to update profile";
+      error.value = handleError(e, "Failed to update profile");
       throw e;
     }
     finally {
@@ -46,5 +44,9 @@ export function useProfile() {
     }
   }
 
-  return { profile, isLoading, error, fetchProfile, updateProfile };
-}
+  function clearProfile() {
+    profile.value = null;
+  }
+
+  return { profile, isLoading, error, fetchProfile, updateProfile, clearProfile };
+});

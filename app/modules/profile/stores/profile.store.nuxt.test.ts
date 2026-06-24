@@ -1,14 +1,15 @@
 import { mockNuxtImport, registerEndpoint } from "@nuxt/test-utils/runtime";
+import { createPinia, setActivePinia } from "pinia";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ref } from "vue";
-import { useProfile } from "./useProfile";
+import { useProfileStore } from "./profile.store";
 
 const mockUser = ref<{ id: string } | null>({ id: "user-123" });
-
 mockNuxtImport("useSupabaseUser", () => () => mockUser);
 
-describe("useProfile", () => {
+describe("useProfileStore", () => {
   beforeEach(() => {
+    setActivePinia(createPinia());
     vi.clearAllMocks();
     mockUser.value = { id: "user-123" };
   });
@@ -17,19 +18,14 @@ describe("useProfile", () => {
     it("does not fetch when user is not authenticated", async () => {
       mockUser.value = null;
 
-      registerEndpoint("/api/profile", () => {
-        throw new Error("should not be called");
-      });
+      const store = useProfileStore();
+      await store.fetchProfile();
 
-      const { fetchProfile, profile } = useProfile();
-      await fetchProfile();
-
-      expect(profile.value).toBeUndefined();
+      expect(store.profile).toBeNull();
     });
 
     it("fetches profile successfully", async () => {
       registerEndpoint("/api/profile", () => ({
-        id: "user-123",
         full_name: "John Doe",
         username: "johndoe",
         weight: 80,
@@ -39,12 +35,12 @@ describe("useProfile", () => {
         avatar_url: null,
       }));
 
-      const { fetchProfile, profile, error, isLoading } = useProfile();
-      await fetchProfile();
+      const store = useProfileStore();
+      await store.fetchProfile();
 
-      expect(profile.value?.full_name).toBe("John Doe");
-      expect(error.value).toBeNull();
-      expect(isLoading.value).toBe(false);
+      expect(store.profile?.full_name).toBe("John Doe");
+      expect(store.error).toBeNull();
+      expect(store.isLoading).toBe(false);
     });
   });
 
@@ -53,15 +49,15 @@ describe("useProfile", () => {
       registerEndpoint("/api/profile", {
         method: "PATCH",
         handler: () => ({
-          id: "user-123",
           full_name: "Jane Doe",
         }),
       });
 
-      const { updateProfile, error } = useProfile();
-      await updateProfile({ full_name: "Jane Doe" });
+      const store = useProfileStore();
+      await store.updateProfile({ full_name: "Jane Doe" });
 
-      expect(error.value).toBeNull();
+      expect(store.error).toBeNull();
+      expect(store.profile?.full_name).toBe("Jane Doe");
     });
 
     it("throws error when update fails", async () => {
@@ -72,9 +68,9 @@ describe("useProfile", () => {
         },
       });
 
-      const { updateProfile } = useProfile();
+      const store = useProfileStore();
 
-      await expect(updateProfile({ full_name: "Jane Doe" })).rejects.toThrow();
+      await expect(store.updateProfile({ full_name: "Jane Doe" })).rejects.toThrow();
     });
   });
 });

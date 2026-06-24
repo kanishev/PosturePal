@@ -26,7 +26,7 @@
 
       <div class="relative px-4 pb-4 pt-2">
         <p class="text-3xl text-white/80">
-          {{ t('dashboard.greeting', { name: user?.email }) }}
+          {{ t('dashboard.greeting', { name: profile?.username }) }}
         </p>
         <h2 class="mt-1 text-4xl font-medium leading-tight text-white">
           {{ t('dashboard.question') }}
@@ -125,7 +125,7 @@
 <script setup lang="ts">
 import { Bell, MessageCircle } from "lucide-vue-next";
 import { useI18n } from "vue-i18n";
-import { useAuthStore } from "~/modules/auth";
+import { useProfileStore } from "~/modules/profile";
 import StatsCard from "~/shared/components/StatsCard/StatsCard.vue";
 import { getStorageUrl } from "~/shared/lib/image";
 
@@ -135,7 +135,7 @@ definePageMeta({
   layout: "default",
 });
 
-const { user } = useAuthStore();
+const { profile } = storeToRefs(useProfileStore());
 
 const stats = ref<{
   weight: number

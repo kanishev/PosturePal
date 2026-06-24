@@ -18,18 +18,13 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue";
 import { useI18n } from "vue-i18n";
-import { ProfileForm, useProfile } from "~/modules/profile";
+import { ProfileForm, useProfileStore } from "~/modules/profile";
 
 definePageMeta({
   layout: "default",
 });
 
 const { t } = useI18n();
-const { profile, isLoading, fetchProfile } = useProfile();
-
-onMounted(() => {
-  fetchProfile();
-});
+const { profile, isLoading } = storeToRefs(useProfileStore());
 </script>
